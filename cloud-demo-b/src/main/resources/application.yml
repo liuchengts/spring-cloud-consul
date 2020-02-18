@@ -1,0 +1,26 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: demo-b
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        serviceName: ${spring.application.name}
+        tags: version=1.0,author=lc
+        healthCheckInterval: 5s
+        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+  hystrix:
+    enabled: true
+  compression:
+    request.enabled: true
+    response.enabled: true
